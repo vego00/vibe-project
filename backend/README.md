@@ -1,7 +1,7 @@
-# vibe-project
+# Backend
 
-개발 환경:
+개발 환경 :
     - OS: Ubuntu 22.04
     - Python version: 3.11
     - Dependency management: Poetry
-    - Encoding: LF
+    - Database: PostgreSQL 15
