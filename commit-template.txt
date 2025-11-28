@@ -1,10 +1,6 @@
-[TYPE]
+[TYPE] #ISSUE
 
 Description:
-- What changed: 
+- What changed:
 - Why:
 
-Test:
-- How to test: 
-
-Additional Notes:
