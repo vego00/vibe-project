@@ -5,6 +5,10 @@ class Settings(BaseSettings):
 
     DATABASE_URL: str  # 기본값 없음 → 반드시 .env에서 로드됨
 
+    SOLAR_API_KEY: str
+    SOLAR_API_URL: str
+    SOLAR_MODEL: str
+
     class Config:
         env_file = ".env"
 
