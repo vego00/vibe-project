@@ -1,6 +1,0 @@
-[TYPE] #ISSUE
-
-Description:
-- What changed:
-- Why:
-
