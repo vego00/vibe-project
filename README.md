@@ -5,3 +5,5 @@
     - Python version: 3.11
     - Dependency management: Poetry
     - Encoding: LF
+
+    git config --global core.editor "code --wait"
