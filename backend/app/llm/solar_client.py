@@ -1,6 +1,6 @@
 import httpx
 from app.core.config import settings
-from app.llm.utils.retry import async_retry
+from app.utils.retry import async_retry
 
 class SolarClient:
 
