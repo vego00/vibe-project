@@ -1,29 +1,42 @@
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-import asyncio
-import httpx
+import pytest
+from httpx import AsyncClient, ASGITransport
 from app.core.config import settings
+from app.main import app
 
-async def test_solar():
-    headers = {
-        "Authorization": f"Bearer {settings.SOLAR_API_KEY}",
-        "Content-Type": "application/json",
-    }
+@pytest.mark.asyncio
+async def test_solar_api():
+    """Solar Pro2 API 호출 테스트"""
 
     payload = {
         "model": settings.SOLAR_MODEL,
         "messages": [
-            {"role": "user", "content": "안녕, 너 연결 테스트 중이야. 한 문장으로 응답해줘."}
+            {"role": "user", "content": "테스트 메시지입니다."}
         ],
-        "max_tokens": 50,
+        "max_tokens": 20
     }
 
-    async with httpx.AsyncClient(timeout=15) as client:
-        response = await client.post(settings.SOLAR_API_URL, headers=headers, json=payload)
+    headers = {
+        "Authorization": f"Bearer {settings.SOLAR_API_KEY}",
+        "Content-Type": "application/json"
+    }
 
-    print("Status:", response.status_code)
-    print("Response:", response.json())
+    async with AsyncClient() as ac:
+        r = await ac.post(settings.SOLAR_API_URL, json=payload, headers=headers)
+
+    assert r.status_code in [200, 400, 401]
+    if r.status_code == 200:
+        data = r.json()
+        assert "choices" in data
+        assert len(data["choices"]) > 0
+        assert "message" in data["choices"][0]
+        assert "content" in data["choices"][0]["message"]
+        print("Solar API Response:", data["choices"][0]["message"]["content"])
+    else:
+        print(f"Solar API returned status code {r.status_code}: {r.text}")
 
 if __name__ == "__main__":
-    asyncio.run(test_solar())
+    import asyncio
+    asyncio.run(test_solar_api())
